@@ -1,4 +1,4 @@
-package ru.tinkoff.edu.java.bot;
+package ru.tinkoff.edu.java.parser;
 
 public class Main {
     public static void main(String[] args) {

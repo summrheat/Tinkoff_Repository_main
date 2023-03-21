@@ -1,4 +1,4 @@
-package ru.tinkoff.edu.java.bot.configuration;
+package ru.tinkoff.edu.java.parser.configuration;
 
 import jakarta.validation.constraints.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
