@@ -3,11 +3,14 @@ package ru.tinkoff.edu.java.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import ru.tinkoff.edu.java.dto.AddLinkRequest;
 import ru.tinkoff.edu.java.dto.ApiErrorResponse;
+import ru.tinkoff.edu.java.dto.LinkResponse;
 
 @RequestMapping(value = "/tg-chat/{id}", consumes = "application/json", produces = "application/json")
 @RestController

@@ -2,6 +2,7 @@ server:
   port: 8080
 app:
   test: 123
+  token: "5788332133:AAFrY4WrXxR9_S5BsjZmn4CVWnlKe9EU6oc"
 springdoc:
   api-docs:
     enabled: true

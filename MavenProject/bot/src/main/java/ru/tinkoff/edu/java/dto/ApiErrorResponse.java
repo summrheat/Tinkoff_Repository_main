@@ -1,8 +1,9 @@
 package ru.tinkoff.edu.java.dto;
+
 import org.springframework.validation.annotation.Validated;
 
 @Validated
-public record ErrorResponse(
+public record ApiErrorResponse(
         String description,
         String code,
         String exceptionName,
