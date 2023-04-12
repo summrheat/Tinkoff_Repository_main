@@ -1,0 +1,3 @@
+ru.tinkoff.edu.App=org.springframework.stereotype.Component,org.springframework.boot.SpringBootConfiguration
+ru.tinkoff.edu.config.ApplicationConfig=org.springframework.boot.context.properties.ConfigurationProperties
+ru.tinkoff.edu.HelloController=org.springframework.stereotype.Component

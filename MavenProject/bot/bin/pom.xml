@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>ru.tinkoff.edu</groupId>
+    <artifactId>tinkoff</artifactId>
+    <version>1.0</version>
+  </parent>
+
+    <repositories>
+        <repository>
+            <id>my-internal-site</id>
+            <url>https://github.com/spring-guides/gs-spring-boot.git</url>
+        </repository>
+    </repositories>
+
+      <properties>
+          <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+          <start-class>ru.tinkoff.edu.tinkoff_test.App</start-class>
+          <java.version>17</java.version>
+          <lombok.version>1.14.8</lombok.version>
+          <log4jdbc.log4j2.version>1.16</log4jdbc.log4j2.version>
+          <rest.assured.version>2.3.3</rest.assured.version>
+
+
+		<start-class>ru.tinkoff.edu.App</start-class>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <spring-context-indexer.version>6.0.6</spring-context-indexer.version>
+    </properties>
+
+  <groupId>ru.tinkoff.edu</groupId>
+  <artifactId>bot</artifactId>
+  <version>1.0</version>
+  <name>bot</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+      <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-web</artifactId>
+          <version>3.0.4</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-jdbc</artifactId>
+          <version>3.0.4</version>
+      </dependency>
+      <dependency>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok</artifactId>
+          <version>${lombok.version}</version>
+          <scope>provided</scope>
+      </dependency>
+<!--      <dependency>-->
+<!--          <groupId>org.bgee.log4jdbc-log4j2</groupId>-->
+<!--          <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>-->
+<!--          <version>${log4jdbc.log4j2.version}</version>-->
+<!--      </dependency>-->
+
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-thymeleaf</artifactId>
+          <version>1.5.1.RELEASE</version>
+<!--          <exclusions>-->
+<!--              <exclusion>-->
+<!--                  <groupId>ch.qos.logback</groupId>-->
+<!--                  <artifactId>logback-classic</artifactId>-->
+<!--              </exclusion>-->
+<!--          </exclusions>-->
+      </dependency>
+
+      <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+          <version>1.6.4</version>
+      </dependency>
+      <dependency>
+          <groupId>ch.qos.logback</groupId>
+          <artifactId>logback-classic</artifactId>
+          <scope>runtime</scope>
+          <version>1.0.0</version>
+      </dependency>
+
+      <dependency>
+          <groupId>jakarta.validation</groupId>
+          <artifactId>jakarta.validation-api</artifactId>
+          <version>3.0.2</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-test</artifactId>
+          <version>3.0.4</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>com.jayway.restassured</groupId>
+          <artifactId>rest-assured</artifactId>
+          <version>${rest.assured.version}</version>
+          <scope>test</scope>
+      </dependency>
+
+
+
+      <dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-devtools</artifactId>
+  <version>3.0.4</version>
+  <scope>runtime</scope>
+  <optional>true</optional>
+</dependency>
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-configuration-processor</artifactId>
+    <version>3.0.4</version>
+  <optional>true</optional>
+</dependency>
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-context-indexer</artifactId>
+  <version>${spring-context-indexer.version}</version>
+  
+</dependency>
+<dependency>
+  <groupId>org.projectlombok</groupId>
+  <artifactId>lombok</artifactId>
+    <version>1.18.26</version>
+  <optional>true</optional>
+</dependency>
+  </dependencies>
+  
+  <build>
+	  
+	  <plugins>
+		   <plugin>
+			  <groupId>org.springframework.boot</groupId>
+			  <artifactId>spring-boot-maven-plugin</artifactId>
+			  <version>${spring-boot.version}</version>
+			  <configuration>
+			      <layers>
+			          <enabled>true</enabled>
+			      </layers>
+			      <excludes>
+			          <exclude>
+			              <groupId>org.projectlombok</groupId>
+			              <artifactId>lombok</artifactId>
+			          </exclude>
+			      </excludes>
+			  </configuration>
+			  <executions>
+			      <execution>
+			          <goals>
+			              <goal>repackage</goal>
+			              <goal>build-info</goal>
+			          </goals>
+			      </execution>
+			  </executions>
+			</plugin>
+			<plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-compiler-plugin</artifactId>
+			  <version>${maven-compiler-plugin.version}</version>
+			  <configuration>
+			      <release>17</release>
+			      <parameters>true</parameters>
+			  </configuration>
+			</plugin>
+	   </plugins>
+  </build>
+  
+</project>
+

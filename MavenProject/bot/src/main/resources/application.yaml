@@ -1,2 +1,11 @@
+server:
+  port: 8080
 app:
-  test: test-string
+  test: 123
+springdoc:
+  api-docs:
+    enabled: true
+    path: /openapi/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui
