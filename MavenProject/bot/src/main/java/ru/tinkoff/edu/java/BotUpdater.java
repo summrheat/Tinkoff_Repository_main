@@ -1,9 +1,12 @@
 package ru.tinkoff.edu.java;
 
+import com.pengrad.telegrambot.Callback;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.request.GetUpdates;
 import com.pengrad.telegrambot.request.SendMessage;
+import com.pengrad.telegrambot.response.GetUpdatesResponse;
 
 import java.util.List;
 
