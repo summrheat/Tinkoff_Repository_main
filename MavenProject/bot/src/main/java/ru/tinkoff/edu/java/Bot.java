@@ -16,8 +16,8 @@ public final class Bot {
 
 
     public Bot() {
-        System.out.println("+++++++TOKEN "+BOT_TOKEN);
-        TelegramBot bot = new TelegramBot(BOT_TOKEN);
+
+        TelegramBot bot = new TelegramBot("5788332133:AAFrY4WrXxR9_S5BsjZmn4CVWnlKe9EU6oc");
 
         BotCommand[] commands = {
                 new BotCommand("start", "зарегестрировать пользователя"),
