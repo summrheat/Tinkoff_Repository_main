@@ -6,17 +6,11 @@ import org.springframework.validation.annotation.Validated;
 import java.net.URI;
 
 @Validated
-public record UpdateLinkRequest(
+public record LinkResponse(
         @NotNull
         Integer id,
 
         @NotNull
-        URI url,
-
-        @NotNull
-        String description,
-
-        @NotNull
-        Integer[] tgChatIds
-) {
+        URI url
+        ) {
 }

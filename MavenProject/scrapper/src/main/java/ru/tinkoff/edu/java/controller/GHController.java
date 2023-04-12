@@ -16,7 +16,7 @@ public class GHController {
         WebClient client = WebClient.create();
 
         Mono<String> responseSpec = client.get()
-                .uri("https://api.github.com/repos/TrofimTyulkin/tinkoff-education")
+                .uri("https://api.github.com/repos/summrheat/Tinkoff_Repository_main")
                 .retrieve()
                 .bodyToMono(String.class);
         return  responseSpec;

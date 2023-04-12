@@ -8,8 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import ru.tinkoff.edu.java.dto.ErrorResponse;
-import ru.tinkoff.edu.java.dto.UpdateLinkRequest;
+import ru.tinkoff.edu.java.dto.ApiErrorResponse;
+import ru.tinkoff.edu.java.dto.LinkUpdaterRequest;
 
 @RequestMapping("/updates")
 @RestController
@@ -21,14 +21,14 @@ public class LinkUpdatesController {
 
     @Operation(summary = "Отправить обновление")
     @PostMapping(consumes = "application/json", produces = "application/json")
-    String updateLink(@RequestBody @Valid UpdateLinkRequest request){
-        return  "send update";
+    String updateLink(@RequestBody @Valid LinkUpdaterRequest request){
+        return  "some body ones told me...";
     }
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleException(MethodArgumentNotValidException e){
-        return ResponseEntity.badRequest().body(new ErrorResponse("Некорректные параметры запроса",
+    public ResponseEntity<ApiErrorResponse> handleException(MethodArgumentNotValidException e){
+        return ResponseEntity.badRequest().body(new ApiErrorResponse("Некорректные параметры запроса",
                 e.getStatusCode().toString(),
                 e.getObjectName(),
                 e.getLocalizedMessage(),
