@@ -38,7 +38,6 @@ public class BotApplication {
         //System.out.println(ctx.getBean(StackOverflowClient.class).fetchQuestion(42365266));
 
 
-        //SendResponse response = bot.execute(new SendMessage(431986570, "Раеенакс6к"));
-        //SendResponse response = bot.execute(new SendMessage(1222685006, "ладно"));
+
     }
 }

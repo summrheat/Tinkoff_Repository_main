@@ -8,15 +8,11 @@ import reactor.core.publisher.Mono;
 
 import java.net.URISyntaxException;
 
-@RequestMapping(value = "/123")
-@RestController
 public class GHController {
-    @GetMapping
-    Mono<String> getAllLinks() throws URISyntaxException {
+    Mono<String> getData(String path) throws URISyntaxException {
         WebClient client = WebClient.create();
-
         Mono<String> responseSpec = client.get()
-                .uri("https://api.github.com/repos/summrheat/Tinkoff_Repository_main")
+                .uri(path)
                 .retrieve()
                 .bodyToMono(String.class);
         return  responseSpec;
