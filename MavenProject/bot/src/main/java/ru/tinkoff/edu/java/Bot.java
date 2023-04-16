@@ -27,7 +27,7 @@ public final class Bot {
 
     public Bot() {
 
-        TelegramBot bot = new TelegramBot("5788332133:AAFrY4WrXxR9_S5BsjZmn4CVWnlKe9EU6oc");
+        TelegramBot bot = new TelegramBot("5788332133:AAEqYLhlrpi77tRYxKiND9aNhOHCjL6geMA");
 
         BotCommand[] commands = {
                 new BotCommand("start", "зарегестрировать пользователя"),
