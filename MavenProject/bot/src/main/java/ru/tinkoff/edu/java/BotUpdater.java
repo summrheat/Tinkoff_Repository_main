@@ -34,7 +34,7 @@ public class BotUpdater implements UpdatesListener {
                         updateid_fromComand = update.message().messageId();
                     }
                     case "/help" -> {
-                        bot.execute(new SendMessage(update.message().chat().id(), "никто не поможет"));
+                        bot.execute(new SendMessage(update.message().chat().id(), "список команд: \n1.start \n2.help \n3.track \n4.untrack \n5.list"));
                         updateid_fromComand = update.message().messageId();
                     }
                     case "/track" -> {
@@ -52,8 +52,8 @@ public class BotUpdater implements UpdatesListener {
                     }
                     default ->{
                         if (update.message().messageId() == updateid_fromComand + 2)
-                            bot.execute(new SendMessage(update.message().chat().id(), "зарегали команду"));
-                        else bot.execute(new SendMessage(update.message().chat().id(), "введена хрень"));
+                            bot.execute(new SendMessage(update.message().chat().id(), "зарегестрировали команду"));
+                        else bot.execute(new SendMessage(update.message().chat().id(), "введена информация"));
                     }
 
                 }

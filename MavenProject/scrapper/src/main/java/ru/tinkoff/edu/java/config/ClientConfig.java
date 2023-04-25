@@ -1,4 +1,4 @@
-package ru.tinkoff.edu.java.configuration;
+package ru.tinkoff.edu.java.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

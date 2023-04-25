@@ -3,14 +3,14 @@ package ru.tinkoff.edu.java.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import ru.tinkoff.edu.java.dto.AddLinkRequest;
-import ru.tinkoff.edu.java.dto.ApiErrorResponse;
-import ru.tinkoff.edu.java.dto.LinkResponse;
+import ru.tinkoff.edu.dao.JdbcChatService;
+import ru.tinkoff.edu.dto.ApiErrorResponse;
+
+import java.sql.SQLException;
 
 @RequestMapping(value = "/tg-chat/{id}", consumes = "application/json", produces = "application/json")
 @RestController
@@ -23,6 +23,11 @@ public class TgChatController {
     @ApiResponse(responseCode = "200", description = "Обновление обработано")
     @ApiResponse(responseCode = "400", description = "Некорректные параметры запроса")
     String addChat(@PathVariable("id") int id){
+        try {
+            new JdbcChatService().addChat(id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return  "add" + id;
     }
 
@@ -31,6 +36,11 @@ public class TgChatController {
     @ApiResponse(responseCode = "400", description = "Некорректные параметры запроса")
     @DeleteMapping
     String deleteChat(@PathVariable("id") int id){
+        try {
+            new JdbcChatService().deleteChat(id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return  "delete" + id;
     }
 

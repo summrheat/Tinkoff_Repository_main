@@ -3,18 +3,25 @@ package ru.tinkoff.edu.java.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
+import ru.tinkoff.edu.java.dao.Link;
+import ru.tinkoff.edu.java.dao.JdbcLinkService;
 import ru.tinkoff.edu.java.dto.AddLinkRequest;
 import ru.tinkoff.edu.java.dto.ApiErrorResponse;
+import ru.tinkoff.edu.java.dto.LinkResponse;
 import ru.tinkoff.edu.java.dto.ListLinksResponse;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @RequestMapping(value = "/links", consumes = "application/json", produces = "application/json")
 @RestController
@@ -27,18 +34,37 @@ public class LinksController {
     @Operation(summary = "Получить все отслеживаемые ссылки")
     @GetMapping
     ListLinksResponse getAllLinks(@RequestHeader int tg_chat_id){
-        return  new ListLinksResponse(6, null);
+        List<LinkResponse> links = new ArrayList<>();
+        try {
+            List<Link> list = new JdbcLinkService().findAllLinksById(tg_chat_id);
+            list.forEach(link -> links.add(new LinkResponse(link.id(), link.url())));
+        } catch (SQLException | URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return  new ListLinksResponse(links.size(), links);
     }
 
     @Operation(summary = "Добавить отслеживание ссылки")
     @PostMapping
-    AddLinkRequest addLink(@RequestHeader int tg_chat_id) throws URISyntaxException {
-        return  new AddLinkRequest(new URI("https://springdoc.org/"));
+    LinkResponse addLink(@RequestHeader int tg_chat_id, @RequestBody @Valid AddLinkRequest request) throws URISyntaxException {
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/scrapper", "postgres","postgres")) {
+            new JdbcLinkService().addLink(tg_chat_id, request.link());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return  new LinkResponse(1,new URI("qe"));
     }
 
     @Operation(summary = "Убрать отслеживание ссылки")
     @DeleteMapping
     String deleteLink(@RequestHeader int tg_chat_id){
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/scrapper", "postgres","postgres")) {
+            new JdbcLinkService().deleteLink(tg_chat_id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return  "delete" + tg_chat_id;
     }
 
