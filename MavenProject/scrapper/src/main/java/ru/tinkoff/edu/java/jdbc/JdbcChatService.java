@@ -1,4 +1,4 @@
-package ru.tinkoff.edu.java.dao;
+package ru.tinkoff.edu.java.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

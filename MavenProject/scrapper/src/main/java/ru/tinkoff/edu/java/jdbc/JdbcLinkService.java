@@ -1,4 +1,4 @@
-package ru.tinkoff.edu.java.dao;
+package ru.tinkoff.edu.java.jdbc;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -63,17 +63,14 @@ public class JdbcLinkService implements LinkService {
     public List<Link> findAllLinks() throws SQLException, URISyntaxException {
         List<Link> links = new ArrayList<>();
         PreparedStatement statement = connection.prepareStatement(
-                "SELECT * FROM chat_links JOIN links ON chat_links.link_id = links.link_id;");
+                "SELECT * FROM links");
 
         ResultSet rs = statement.executeQuery();
 
         while (rs.next()){
-            Timestamp updateTime = rs.getTimestamp(4);
+            Timestamp updateTime = rs.getTimestamp(2);
             var a = updateTime.getTime();
-            System.err.println(a - System.currentTimeMillis());
-            System.err.println("rs = " + rs.getInt(1) + rs.getInt(2)
-                    +  rs.getString(3) + rs.getTimestamp(4) + rs.getString(5));
-            links.add(new Link(rs.getInt(3), new URI(rs.getString(5)), rs.getTimestamp(4)));
+            links.add(new Link(rs.getInt(1), new URI(rs.getString(3)), rs.getTimestamp(2)));
         }
         statement.close();
         return  links;
