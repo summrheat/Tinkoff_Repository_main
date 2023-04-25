@@ -5,10 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class ChatController implements ChatDAO{
+public class JdbcChatService implements ChatService {
     Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/scrapper", "postgres","postgres");
 
-    public ChatController() throws SQLException {
+    public JdbcChatService() throws SQLException {
     }
 
     @Override
@@ -21,7 +21,10 @@ public class ChatController implements ChatDAO{
 
     @Override
     public void deleteChat(int chatId) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("DELETE FROM chats WHERE chat_id=?;");
+        PreparedStatement statement = connection.prepareStatement("DELETE FROM chat_links WHERE chat_id=?;");
+        statement.setInt(1, chatId);
+        statement.executeUpdate();
+        statement = connection.prepareStatement("DELETE FROM chats WHERE chat_id=?;");
         statement.setInt(1, chatId);
         statement.executeUpdate();
         statement.close();

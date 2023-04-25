@@ -10,7 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import ru.tinkoff.edu.java.dao.Link;
-import ru.tinkoff.edu.java.dao.LinkController;
+import ru.tinkoff.edu.java.dao.JdbcLinkService;
 import ru.tinkoff.edu.java.dto.AddLinkRequest;
 import ru.tinkoff.edu.java.dto.ApiErrorResponse;
 import ru.tinkoff.edu.java.dto.LinkResponse;
@@ -18,10 +18,7 @@ import ru.tinkoff.edu.java.dto.ListLinksResponse;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +36,7 @@ public class LinksController {
     ListLinksResponse getAllLinks(@RequestHeader int tg_chat_id){
         List<LinkResponse> links = new ArrayList<>();
         try {
-            List<Link> list = new LinkController().findAllLinks(tg_chat_id);
+            List<Link> list = new JdbcLinkService().findAllLinksById(tg_chat_id);
             list.forEach(link -> links.add(new LinkResponse(link.id(), link.url())));
         } catch (SQLException | URISyntaxException e) {
             throw new RuntimeException(e);
@@ -53,10 +50,7 @@ public class LinksController {
     @PostMapping
     LinkResponse addLink(@RequestHeader int tg_chat_id, @RequestBody @Valid AddLinkRequest request) throws URISyntaxException {
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/scrapper", "postgres","postgres")) {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO links (link_url) VALUES (?)");
-            System.out.println(request.link());
-            statement.setString(1, String.valueOf(request.link()));
-            statement.executeUpdate();
+            new JdbcLinkService().addLink(tg_chat_id, request.link());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -66,6 +60,11 @@ public class LinksController {
     @Operation(summary = "Убрать отслеживание ссылки")
     @DeleteMapping
     String deleteLink(@RequestHeader int tg_chat_id){
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/scrapper", "postgres","postgres")) {
+            new JdbcLinkService().deleteLink(tg_chat_id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return  "delete" + tg_chat_id;
     }
 
