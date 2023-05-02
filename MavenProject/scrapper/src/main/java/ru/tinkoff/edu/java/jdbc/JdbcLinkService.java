@@ -1,8 +1,12 @@
 package ru.tinkoff.edu.java.jdbc;
 
+import ru.tinkoff.edu.java.client.GitHubClient;
+import ru.tinkoff.edu.java.client.StackOverflowClient;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +19,29 @@ public class JdbcLinkService implements LinkService {
     @Override
     public void addLink(int chatId, URI url) throws SQLException {
         PreparedStatement statement;
+        String str_url = url.toString();
+        str_url = str_url.replace("//", "");
+        Timestamp updatetime = null;
+        if (str_url.contains("github")) {
+            System.err.println("github");
+            updatetime = Timestamp.valueOf(
+                    new GitHubClient().fetchRepo(str_url.split("/")[1], str_url.split("/")[2]).pushedAt()
+                            .atZoneSameInstant(ZoneOffset.UTC).toLocalDateTime());
+            System.err.println(new GitHubClient().fetchRepo(str_url.split("/")[1], str_url.split("/")[2]));
+            System.err.println(updatetime);
+        }
+        if (str_url.contains("stackoverflow")) {
+            System.err.println(new StackOverflowClient().fetchQuestion(Long.parseLong(str_url.split("/")[2])));
+            System.err.println("SOW");
+        }
+
         if (getLinkId(String.valueOf(url)) == 0){
             statement = connection.prepareStatement(
-                    "INSERT INTO links (updated_at,link_url) VALUES (?, ?)");
-            statement.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
-            statement.setString(2, String.valueOf(url));
+                    "INSERT INTO links (updated_at, updated_at_scrapper ,link_url) VALUES (?, ?, ?)");
+
+            statement.setTimestamp(1, updatetime);
+            statement.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+            statement.setString(3, String.valueOf(url));
             statement.executeUpdate();
         }
         int linkId = getLinkId(String.valueOf(url));
@@ -53,10 +75,26 @@ public class JdbcLinkService implements LinkService {
                 System.err.println(a - System.currentTimeMillis());
                 System.err.println("rs = " + rs.getInt(1) + rs.getInt(2)
                         +  rs.getString(3) + rs.getTimestamp(4) + rs.getString(5));
-                links.add(new Link(rs.getInt(3), new URI(rs.getString(5)), rs.getTimestamp(4)));
+                links.add(new Link(rs.getInt(3), new URI(rs.getString(6)), rs.getTimestamp(4), rs.getTimestamp(5)));
             }
         statement.close();
         return  links;
+    }
+
+    public List<Integer> findAllChatById(int linkId) throws SQLException, URISyntaxException {
+        List<Integer> ids = new ArrayList<>();
+        PreparedStatement statement = connection.prepareStatement(
+                "SELECT * FROM chat_links WHERE link_id = ?;");
+
+        statement.setInt(1, linkId);
+        ResultSet rs = statement.executeQuery();
+
+        while (rs.next()){
+            System.err.println("rs = " + rs.getInt(1));
+            ids.add(rs.getInt(1));
+        }
+        statement.close();
+        return  ids;
     }
 
     @Override
@@ -70,7 +108,7 @@ public class JdbcLinkService implements LinkService {
         while (rs.next()){
             Timestamp updateTime = rs.getTimestamp(2);
             var a = updateTime.getTime();
-            links.add(new Link(rs.getInt(1), new URI(rs.getString(3)), rs.getTimestamp(2)));
+            links.add(new Link(rs.getInt(1), new URI(rs.getString(4)), rs.getTimestamp(3), rs.getTimestamp(2)));
         }
         statement.close();
         return  links;
@@ -85,7 +123,6 @@ public class JdbcLinkService implements LinkService {
         while (rs.next()){
             ans = rs.getInt(1);
         }
-        System.err.println("ID = " + ans);
         return ans;
     }
 }

@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 public record Link(
         Integer id,
         URI url,
+        Timestamp updateTimeAtScrap,
         Timestamp updateTime
 ) {
 }

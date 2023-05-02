@@ -10,9 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import ru.tinkoff.edu.CreateBot;
-import ru.tinkoff.edu.dto.ApiErrorResponse;
-import ru.tinkoff.edu.dto.LinkUpdaterRequest;
+import ru.tinkoff.edu.java.CreateBot;
+import ru.tinkoff.edu.java.dto.ApiErrorResponse;
+import ru.tinkoff.edu.java.dto.LinkUpdaterRequest;
 
 import java.util.Arrays;
 
