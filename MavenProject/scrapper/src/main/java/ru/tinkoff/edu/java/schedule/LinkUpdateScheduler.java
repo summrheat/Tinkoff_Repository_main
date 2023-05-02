@@ -3,8 +3,8 @@ package ru.tinkoff.edu.java.schedule;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import ru.tinkoff.edu.java.dao.JdbcLinkService;
-import ru.tinkoff.edu.java.dao.Link;
+import ru.tinkoff.edu.java.jdbc.JdbcLinkService;
+import ru.tinkoff.edu.java.jdbc.Link;
 
 import java.net.URISyntaxException;
 import java.sql.*;
