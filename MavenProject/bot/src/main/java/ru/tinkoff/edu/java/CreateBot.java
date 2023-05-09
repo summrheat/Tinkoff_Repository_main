@@ -3,11 +3,10 @@ package ru.tinkoff.edu.java;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.BotCommand;
 import com.pengrad.telegrambot.request.SetMyCommands;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
-@Component("BOT")
-public class Bot {
+
+public class CreateBot {
+    static TelegramBot bot;
     BotCommand[] commands = {
             new BotCommand("start", "зарегестрировать пользователя"),
             new BotCommand("help", "вывести окно с командами"),
@@ -15,30 +14,14 @@ public class Bot {
             new BotCommand("untrack", "прекратить отслеживание ссылки"),
             new BotCommand("list", "показать список отслеживаемых ссылок")
     };
-
-    @Value("${app.token}")
-    private String test;
-
-    TelegramBot bot = new TelegramBot(test);
-
-
-    public Bot() {
-        System.out.println("5788332133:AAEqYLhlrpi77tRYxKiND9aNhOHCjL6geMA" + test);
-//        bot = new TelegramBot("TOKEN");
-//        bot.execute(new SetMyCommands(commands));
-//        bot.setUpdatesListener(new BotUpdater(bot));
-    }
-
-
-    void start() {
-        bot = new TelegramBot(getTest());
+    CreateBot(String token){
+        bot = new TelegramBot(token);
         bot.execute(new SetMyCommands(commands));
         bot.setUpdatesListener(new BotUpdater(bot));
-
     }
 
-    String getTest() {
-        return test;
-
+    public static TelegramBot getBot(){
+        return bot;
     }
+
 }
