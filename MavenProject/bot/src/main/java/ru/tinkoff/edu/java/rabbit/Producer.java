@@ -3,8 +3,10 @@ package ru.tinkoff.edu.java.rabbit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.stereotype.Component;
 import ru.tinkoff.edu.java.dto.AddLinkRequest;
 
+@Component
 @RequiredArgsConstructor
 public class Producer {
 

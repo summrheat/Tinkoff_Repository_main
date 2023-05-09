@@ -12,4 +12,7 @@ public record ApplicationConfig(@NotNull String test) {
     public String test(ApplicationConfig config) {
         return config.test;
     }
+
+
+
 }

@@ -8,6 +8,9 @@ import java.net.URI;
 @Validated
 public record LinkResponse(
         @NotNull
-        URI link
+        Integer id,
+
+        @NotNull
+        URI url
         ) {
 }
