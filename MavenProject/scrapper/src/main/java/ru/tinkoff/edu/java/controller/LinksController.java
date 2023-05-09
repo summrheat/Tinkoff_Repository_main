@@ -20,8 +20,6 @@ import ru.tinkoff.edu.java.service.JpaLinkService;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,7 +39,7 @@ public class LinksController {
 
     @Operation(summary = "Получить все отслеживаемые ссылки")
     @GetMapping
-    ListLinksResponse getAllLinks(@RequestHeader int tg_chat_id){
+    ListLinksResponse getAllLinks(@RequestHeader Long tg_chat_id){
         List<LinkResponse> links = new ArrayList<>();
         try {
             List<Link> list = new JdbcLinkService().findAllLinksById(tg_chat_id);
@@ -56,7 +54,7 @@ public class LinksController {
 
     @Operation(summary = "Добавить отслеживание ссылки")
     @PostMapping
-    LinkResponse addLink(@RequestHeader int tg_chat_id, @RequestBody @Valid AddLinkRequest request) throws URISyntaxException {
+    LinkResponse addLink(@RequestHeader Long tg_chat_id, @RequestBody @Valid AddLinkRequest request) throws URISyntaxException {
         try {
             new JdbcLinkService().addLink(tg_chat_id, request.link());
         } catch (SQLException e) {
@@ -70,9 +68,9 @@ public class LinksController {
 
     @Operation(summary = "Убрать отслеживание ссылки")
     @DeleteMapping
-    String deleteLink(@RequestHeader int tg_chat_id){
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/scrapper", "postgres","postgres")) {
-            new JdbcLinkService().deleteLink(tg_chat_id);
+    String deleteLink(@RequestHeader int tg_chat_id, @RequestBody @Valid AddLinkRequest request){
+        try {
+            new JdbcLinkService().deleteLink((long) tg_chat_id,request.link().toString());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
