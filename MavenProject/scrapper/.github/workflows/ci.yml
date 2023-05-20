@@ -1,0 +1,46 @@
+name: Scrapper CI
+
+on:
+  push:
+    branches: [ "hw8" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+    - name: Build with Maven
+      run: mvn clean install
+    - uses: actions/upload-artifact@v2
+      with:
+        name: app.jar
+        path: target/ci-workshop.jar
+
+  docker-build-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: actions/download-artifact@v2
+        with:
+          name: app.jar
+          path: target/ci-workshop.jar
+      - name: See jar file
+        run: ls -la target
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Build image
+        run: docker build --build-arg JAR_FILE=target/*.jar -t ${{ secrets.DOCKERHUB_USERNAME }}/java-app:latest .
+      - name: Run docker file
+        run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/java-app:latest
+      - name: Push image
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/java-app:latest
+    needs: [build]
