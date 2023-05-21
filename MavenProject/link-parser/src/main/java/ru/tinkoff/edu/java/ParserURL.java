@@ -5,8 +5,6 @@ import ru.tinkoff.edu.java.data.StackOverFlow;
 import ru.tinkoff.edu.java.parsers.GitHubParser;
 import ru.tinkoff.edu.java.parsers.StackOverFlowParser;
 
-import java.util.Scanner;
-
 public class ParserURL {
     public void parse(String link) {
         try {
@@ -37,6 +35,3 @@ public class ParserURL {
     }
 
 }
-//        https://github.com/sanyarnd/tinkoff-java-course-2022/
-//        https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c
-//        https://stackoverflow.com/search?q=unsupported%20link

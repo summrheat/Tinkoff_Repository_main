@@ -33,7 +33,7 @@ public class LinkUpdatesController {
             bot.execute(new SendMessage(chatid, "По вашей ссылке  " + request.url() + " произошло обновление "
                     + request.description()));
         }
-        return  "конец операции";
+        return  "some body ones told me...";
     }
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)

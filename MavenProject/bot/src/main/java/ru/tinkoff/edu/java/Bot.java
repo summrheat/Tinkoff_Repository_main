@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component("BOT")
 public class Bot {
+
     BotCommand[] commands = {
             new BotCommand("start", "зарегестрировать пользователя"),
             new BotCommand("help", "вывести окно с командами"),
@@ -23,10 +24,7 @@ public class Bot {
 
 
     public Bot() {
-        System.out.println("5788332133:AAEqYLhlrpi77tRYxKiND9aNhOHCjL6geMA" + test);
-//        bot = new TelegramBot("TOKEN");
-//        bot.execute(new SetMyCommands(commands));
-//        bot.setUpdatesListener(new BotUpdater(bot));
+
     }
 
 

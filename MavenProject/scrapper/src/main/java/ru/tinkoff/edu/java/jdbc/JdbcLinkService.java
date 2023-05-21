@@ -38,13 +38,18 @@ public class JdbcLinkService implements LinkService {
         PreparedStatement statement;
         String str_url = url.toString();
         str_url = str_url.replace("//", "");
-        Timestamp updatetime = null;
+        Timestamp updatetime = new Timestamp(System.currentTimeMillis());
         if (str_url.contains("github")) {
             System.err.println("github");
-            updatetime = Timestamp.valueOf(
-                    new GitHubClient().fetchRepo(str_url.split("/")[1], str_url.split("/")[2]).pushedAt()
-                            .atZoneSameInstant(ZoneOffset.UTC).toLocalDateTime());
-            System.err.println(new GitHubClient().fetchRepo(str_url.split("/")[1], str_url.split("/")[2]));
+            try {
+                updatetime = Timestamp.valueOf(
+                        new GitHubClient().fetchRepo(str_url.split("/")[1], str_url.split("/")[2]).pushedAt()
+                                .atZoneSameInstant(ZoneOffset.UTC).toLocalDateTime());
+            }catch (Exception e){
+
+            }
+
+            //System.err.println(new GitHubClient().fetchRepo(str_url.split("/")[1], str_url.split("/")[2]));
             System.err.println(updatetime);
         }
         else if (str_url.contains("stackoverflow")) {

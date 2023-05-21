@@ -6,6 +6,7 @@ import com.pengrad.telegrambot.request.SetMyCommands;
 
 
 public class CreateBot {
+
     static TelegramBot bot;
     BotCommand[] commands = {
             new BotCommand("start", "зарегестрировать пользователя"),

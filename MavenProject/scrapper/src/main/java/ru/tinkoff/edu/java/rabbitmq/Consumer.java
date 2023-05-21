@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import ru.tinkoff.edu.java.dto.AddLinkRequest;
 import ru.tinkoff.edu.java.dto.LinkResponse;
 import ru.tinkoff.edu.java.dto.ListLinksResponse;
+import ru.tinkoff.edu.java.jdbc.JdbcChatService;
 import ru.tinkoff.edu.java.jdbc.JdbcLinkService;
 import ru.tinkoff.edu.java.jdbc.Link;
 
@@ -28,10 +29,10 @@ public class Consumer {
 
     RabbitTemplate rabbitTemplate;
     public Consumer(){
-        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
+    RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
         rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
         this.rabbitTemplate = rabbitTemplate;
-    }
+}
     public ConnectionFactory connectionFactory() {
         CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory("localhost");
         cachingConnectionFactory.setUsername("guest");
@@ -40,8 +41,9 @@ public class Consumer {
     }
 
     @RabbitListener(queues = "addChat")
-    public void addChat(String id) {
+    public void addChat(String id) throws SQLException {
         System.err.println("Message read from add : " + id);
+        new JdbcChatService().addChat(Integer.parseInt(id));
     }
     @RabbitListener(queues = "deleteChat")
     public void deleteChat(Long id) {

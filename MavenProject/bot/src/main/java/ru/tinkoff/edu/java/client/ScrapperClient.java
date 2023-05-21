@@ -8,7 +8,6 @@ import ru.tinkoff.edu.java.dto.ScrapperResponse;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
 @RequiredArgsConstructor
 public class ScrapperClient {
 
